@@ -413,7 +413,7 @@ class HomePageState extends State<EmpDashHome> {
         // TODO: implement listener
       },
       builder: (context, state) {
-        if (state is InternetGainedState) {
+        // if (state is InternetGainedState) {
           return Scaffold(
                     appBar: AppBar(
                       leading: Padding(
@@ -533,11 +533,9 @@ class HomePageState extends State<EmpDashHome> {
                                 const SizedBox(
                                   width: 10,
                                 ),
-                                Expanded(
-                                  child: ProfileInfoCard(
-                                    firstText: "IN",
-                                    secondText: GlobalObjects.empIn1 ?? "---",
-                                  ),
+                                ProfileInfoCard(
+                                  firstText: "IN",
+                                  secondText: GlobalObjects.empIn1 ?? "---",
                                 ),
                                 const SizedBox(
                                   width: 10,
@@ -699,31 +697,9 @@ class HomePageState extends State<EmpDashHome> {
           );
 
         } else if (state is InternetLostState) {
-          return Scaffold(
-            body: Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const Text(
-                    "Slow or No Internet Connection homepage no internet state!",
-                    style: TextStyle(
-                      color: Colors.red,
-                      fontSize: 30,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  Lottie.asset('assets/no_wifi.json'),
-                ],
-              ),
-            ),
-          );
-        } else {
-          return Scaffold(
-            body: Container(
-              child: Center(
+          return Expanded(
+            child: Scaffold(
+              body: Center(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -740,6 +716,32 @@ class HomePageState extends State<EmpDashHome> {
                     ),
                     Lottie.asset('assets/no_wifi.json'),
                   ],
+                ),
+              ),
+            ),
+          );
+        } else {
+          return Expanded(
+            child: Scaffold(
+              body: Container(
+                child: Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Text(
+                        "Slow or No Internet Connection homepage no internet state!",
+                        style: TextStyle(
+                          color: Colors.red,
+                          fontSize: 30,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      Lottie.asset('assets/no_wifi.json'),
+                    ],
+                  ),
                 ),
               ),
             ),
