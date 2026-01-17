@@ -1,11 +1,33 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import '../../../constants/constants.dart';
 import '../../../Sqlite/admin_sqliteHelper.dart';
 import 'PendingLeavesModel.dart';
 
 class PendingLeavesRepository {
 
   Future<List<PendingLeavesModel>> fetchPendingLeaves() async {
+    if (kUseMockApi) {
+      return [
+        PendingLeavesModel(
+          id: 1,
+          cardNo: 'EMP001',
+          empName: 'Employee 1',
+          deptName: 'IT',
+          punchDatetime: DateTime.now().subtract(const Duration(hours: 1)),
+          location: 'Office',
+          latitude: 24.7136,
+          longitude: 46.6753,
+          imageData: null,
+          imeiNo: '000000000000000',
+          temp1: null,
+          temp2: null,
+          attendanceType: 'IN',
+          remark1: '',
+          imagepath: '',
+        ),
+      ];
+    }
     try {
       // Retrieve corporate_id from SQLite table
       final adminDbHelper = AdminDatabaseHelper();

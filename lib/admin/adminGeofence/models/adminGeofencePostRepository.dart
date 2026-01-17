@@ -1,10 +1,14 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import '../../../constants/constants.dart';
 import '../../../Sqlite/admin_sqliteHelper.dart';
 import '../models/adminGeofenceModel.dart';
 
 class AdminGeoFenceRepository {
   Future<void> postGeoFenceData(List<AdminGeoFenceModel> geoFenceDataList) async {
+    if (kUseMockApi) {
+      return;
+    }
     try {
       // Retrieve corporate_id from SQLite table
       final adminDbHelper = AdminDatabaseHelper();

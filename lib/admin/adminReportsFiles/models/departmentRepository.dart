@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
+import '../../../constants/constants.dart';
 import '../../../Sqlite/admin_sqliteHelper.dart';
 import 'departmentModel.dart';
 
@@ -8,6 +9,19 @@ class DepartmentRepository {
   final String baseUrl = 'http://62.171.184.216:9595/api/Admin/Department';
 
   Future<List<Department>> getAllActiveDepartments() async {
+    if (kUseMockApi) {
+      return [
+        Department(
+          deptId: 1,
+          deptName: 'IT',
+          deptDescription: '',
+          active: true,
+          onDate: DateTime.now(),
+          byUser: 0,
+          mstEmployees: const [],
+        ),
+      ];
+    }
     try {
       // Retrieve corporate_id from SQLite table
       final adminDbHelper = AdminDatabaseHelper();

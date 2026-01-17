@@ -1,10 +1,31 @@
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import '../../../constants/constants.dart';
 import '../../../Sqlite/admin_sqliteHelper.dart';
 import 'getActiveEmployeesModel.dart';
 
 class GetActiveEmpRepository {
   Future<List<GetActiveEmpModel>> getActiveEmployees() async {
+    if (kUseMockApi) {
+      return [
+        GetActiveEmpModel(
+          empId: 1,
+          empName: 'Employee 1',
+          empCode: 'EMP001',
+          deptNames: 'IT',
+          branchNames: 'Main',
+          companyNames: 'Company',
+        ),
+        GetActiveEmpModel(
+          empId: 2,
+          empName: 'Employee 2',
+          empCode: 'EMP002',
+          deptNames: 'HR',
+          branchNames: 'Main',
+          companyNames: 'Company',
+        ),
+      ];
+    }
     try {
       // Retrieve corporate_id from SQLite table
       final adminDbHelper = AdminDatabaseHelper();

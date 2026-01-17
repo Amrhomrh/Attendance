@@ -533,9 +533,11 @@ class HomePageState extends State<EmpDashHome> {
                                 const SizedBox(
                                   width: 10,
                                 ),
-                                ProfileInfoCard(
-                                  firstText: "IN",
-                                  secondText: GlobalObjects.empIn1 ?? "---",
+                                Expanded(
+                                  child: ProfileInfoCard(
+                                    firstText: "IN",
+                                    secondText: GlobalObjects.empIn1 ?? "---",
+                                  ),
                                 ),
                                 const SizedBox(
                                   width: 10,
@@ -543,14 +545,11 @@ class HomePageState extends State<EmpDashHome> {
                                 Expanded(
                                   child: ProfileInfoCard(
                                     firstText: "Status",
-                                    secondText:
-                                        GlobalObjects.empStatus!.isNotEmpty
+                                    secondText: ((GlobalObjects.empStatus ?? '')
+                                                .isNotEmpty)
                                             ? GlobalObjects.empStatus
                                             : "---",
                                   ),
-                                ),
-                                const SizedBox(
-                                  width: 10,
                                 ),
                                 const SizedBox(
                                   width: 10,

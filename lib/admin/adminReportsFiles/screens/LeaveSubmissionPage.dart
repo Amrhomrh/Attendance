@@ -6,6 +6,7 @@ import 'dart:convert';
 import 'package:intl/intl.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:preparationapplication/constants/AppBar_constant.dart';
+import 'package:preparationapplication/constants/constants.dart';
 import 'package:preparationapplication/introduction/bloc/bloc_internet/internet_bloc.dart';
 import 'package:preparationapplication/introduction/bloc/bloc_internet/internet_state.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -325,6 +326,16 @@ class _LeaveSubmissionPageState extends State<LeaveSubmissionPage>
                       width: double.infinity, // Set the width to take the full width
                       child: ElevatedButton(
                         onPressed: () async {
+                          if (kUseMockApi) {
+                            addToCartPopUpAnimationController.forward();
+                            Timer(const Duration(seconds: 2), () {
+                              addToCartPopUpAnimationController.reverse();
+                              Navigator.pop(context);
+                            });
+                            showPopupWithSuccessMessage(
+                                "Leave added successfully!");
+                            return;
+                          }
                           SharedPreferences prefs =
                               await SharedPreferences.getInstance();
                           String corporateId =

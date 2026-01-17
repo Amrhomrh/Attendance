@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import '../../../constants/constants.dart';
 import '../../../Sqlite/admin_sqliteHelper.dart';
 import 'AdminDailyReportsModel.dart'; // Import your SQLite helper
 
@@ -10,6 +11,29 @@ class AdminReportsRepository {
 
   Future<List<AdminDailyReportsModel>> fetchDailyReports(
       List<int> employeeIds, String reportDate) async {
+    if (kUseMockApi) {
+      return [
+        AdminDailyReportsModel(
+          empId: employeeIds.isNotEmpty ? employeeIds.first : 1,
+          shiftStartTime: DateTime.now().subtract(const Duration(hours: 8)),
+          shiftEndTime: DateTime.now(),
+          hoursWorked: 8,
+          otDuration: 0,
+          earlyArrival: 0,
+          earlyDeparture: 0,
+          lateArrival: 0,
+          totalLossHrs: 0,
+          status: 'Present',
+          reason: null,
+          shift: 'General',
+          in1: DateTime.now().subtract(const Duration(hours: 8)),
+          in2: null,
+          out1: DateTime.now(),
+          out2: null,
+          remark: '',
+        ),
+      ];
+    }
     try {
       // Retrieve corporate_id from SQLite table
       final adminDbHelper = AdminDatabaseHelper();

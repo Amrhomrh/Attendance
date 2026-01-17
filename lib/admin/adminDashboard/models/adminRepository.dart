@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import '../../../constants/constants.dart';
 import '../../../Sqlite/admin_sqliteHelper.dart';
 import '../models/adminModel.dart';
 
@@ -7,6 +8,32 @@ class AdminRepository {
   final apiUrl = "http://62.171.184.216:9595/api/login";
 
   Future<List<AdminModel>> getData() async {
+    if (kUseMockApi) {
+      return [
+        AdminModel(
+          userId: 1,
+          userLoginId: 'admin',
+          userName: 'Admin',
+          userPassword: 'admin',
+          parentUserId: 0,
+          userEnabled: true,
+          email: 'admin@example.com',
+          mobile: '0500000000',
+          onDate: DateTime.now(),
+          per: 'all',
+          branchPer: 'all',
+          companyPer: 'all',
+          deptPer: 'all',
+          allowAccess: 'all',
+          leaveAccess: 'all',
+          deviceToken: '',
+          type: 1,
+          adminNotification: 1,
+          departmentPer: 'all',
+          visitorPer: 1,
+        ),
+      ];
+    }
     try {
       // Retrieve corporate_id and username from SQLite table
       final adminDbHelper = AdminDatabaseHelper();

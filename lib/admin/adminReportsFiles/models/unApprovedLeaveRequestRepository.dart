@@ -1,10 +1,14 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:preparationapplication/admin/adminReportsFiles/models/unApprovedLeaveRequestModel.dart';
+import '../../../constants/constants.dart';
 import '../../../Sqlite/admin_sqliteHelper.dart';
 
 class UnApprovedLeaveRepository {
   Future<List<UnApprovedLeaveRequest>> fetchUnApprovedLeaveRequests() async {
+    if (kUseMockApi) {
+      return [];
+    }
     try {
       // Retrieve corporate_id from SQLite table
       final adminDbHelper = AdminDatabaseHelper();

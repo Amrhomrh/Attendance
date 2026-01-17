@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import '../../../constants/constants.dart';
 import '../../../Sqlite/admin_sqliteHelper.dart';
 import '../models/AdminDashBoard_model.dart';
 
@@ -9,6 +10,14 @@ class AdminDashboardRepository {
   AdminDashboardRepository(this.baseUrl);
 
   Future<AdminDashBoard> fetchDashboardData(DateTime date) async {
+    if (kUseMockApi) {
+      return AdminDashBoard(
+        presentCount: 18,
+        absentCount: 2,
+        lateCount: 1,
+        totalEmployeeCount: 21,
+      );
+    }
     final formattedDate = date.toIso8601String();
 
     // Retrieve corporate_id from SQLite table

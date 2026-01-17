@@ -1,10 +1,14 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import '../../../constants/constants.dart';
 import '../../../Sqlite/admin_sqliteHelper.dart';
 import 'CustomLeaveRequestModel.dart';
 
 class CustomLeaveRequestRepository {
   Future<void> postCustomLeaveRequest(CustomLeaveRequestModel leaveRequest) async {
+    if (kUseMockApi) {
+      return;
+    }
     try {
       // Retrieve corporate_id from SQLite table
       final adminDbHelper = AdminDatabaseHelper();

@@ -1,11 +1,23 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import '../../../constants/constants.dart';
 import '../../../Sqlite/admin_sqliteHelper.dart';
 
 class LeaveRepository {
   final String baseUrl = 'http://62.171.184.216:9595';
 
   Future<List<Map<String, dynamic>>> fetchLeaveRequests() async {
+    if (kUseMockApi) {
+      return [
+        {
+          'id': 1,
+          'empId': 1,
+          'empName': 'Employee 1',
+          'leaveType': 'Annual Leave',
+          'status': 'Approved',
+        }
+      ];
+    }
     try {
       // Retrieve corporate_id from SQLite table
       final adminDbHelper = AdminDatabaseHelper();

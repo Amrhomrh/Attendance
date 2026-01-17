@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import '../../../constants/constants.dart';
 import '../../../Sqlite/admin_sqliteHelper.dart';
 import 'AdminEditProfileModel.dart';
 
@@ -10,6 +11,9 @@ class AdminEditProfileRepository {
   AdminEditProfileRepository(this.baseUrl);
 
   Future<bool> updateAdminProfile(AdminEditProfile adminEditProfile) async {
+    if (kUseMockApi) {
+      return true;
+    }
     try {
       // Retrieve corporate_id from SQLite table
       final adminDbHelper = AdminDatabaseHelper();

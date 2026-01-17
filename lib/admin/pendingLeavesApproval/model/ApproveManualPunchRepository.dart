@@ -1,9 +1,13 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import '../../../constants/constants.dart';
 import '../../../Sqlite/admin_sqliteHelper.dart'; // Import your SQLite helper
 
 class ApproveManualPunchRepository {
   Future<bool> postApproveManualPunch(List<Map<String, dynamic>> data) async {
+    if (kUseMockApi) {
+      return true;
+    }
     try {
       // Retrieve corporate_id from SQLite table
       final adminDbHelper = AdminDatabaseHelper();

@@ -1,10 +1,18 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
+import '../../../constants/constants.dart';
 import '../../../Sqlite/admin_sqliteHelper.dart';
 
 class LeaveTypeRepository {
   Future<List<Map<String, dynamic>>?> fetchLeaveTypes() async {
+    if (kUseMockApi) {
+      return [
+        {'ltypeId': 1, 'ltypeName': 'Annual'},
+        {'ltypeId': 2, 'ltypeName': 'Sick Leave'},
+        {'ltypeId': 3, 'ltypeName': 'Emergency Leave'},
+      ];
+    }
     try {
       // Retrieve corporate_id from SQLite table
       final adminDbHelper = AdminDatabaseHelper();

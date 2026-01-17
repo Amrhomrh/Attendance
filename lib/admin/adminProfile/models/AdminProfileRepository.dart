@@ -1,11 +1,22 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import '../../../constants/constants.dart';
 import '../../../Sqlite/admin_sqliteHelper.dart';
 import 'AdminProfileModel.dart'; // Import your SQLite helper
 
 class AdminProfileRepository {
 
   Future<AdminProfileModel?> fetchAdminProfile(String employeeId) async {
+    if (kUseMockApi) {
+      return AdminProfileModel(
+        userLoginId: employeeId,
+        userName: 'Admin',
+        userPassword: 'admin',
+        email: 'admin@example.com',
+        mobile: '0500000000',
+        onDate: DateTime.now().toIso8601String(),
+      );
+    }
     try {
       final adminDbHelper = AdminDatabaseHelper();
       final adminData = await adminDbHelper.getAdmins();

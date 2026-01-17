@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
+import '../../../constants/constants.dart';
 import '../../../Sqlite/admin_sqliteHelper.dart';
 import 'leaveSubmissionModel.dart';
 
@@ -8,6 +9,9 @@ class LeaveSubmissionRepository {
   final String baseUrl = 'http://62.171.184.216:9595';
 
   Future<void> submitLeaveRequest(LeaveSubmissionModel leaveSubmissionModel) async {
+    if (kUseMockApi) {
+      return;
+    }
     try {
       // Retrieve corporate_id from SQLite table
       final adminDbHelper = AdminDatabaseHelper();
