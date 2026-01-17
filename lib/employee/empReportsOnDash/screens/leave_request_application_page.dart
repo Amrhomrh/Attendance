@@ -22,6 +22,7 @@ class LeaveRequestForm extends StatefulWidget {
 class _LeaveRequestFormState extends State<LeaveRequestForm>
     with TickerProviderStateMixin {
   late AnimationController addToCartPopUpAnimationController;
+  Timer? _clockTimer;
 
   final _reasonController = TextEditingController();
   final _reasonTextController = TextEditingController();
@@ -52,7 +53,12 @@ class _LeaveRequestFormState extends State<LeaveRequestForm>
     _currentTime = DateFormat.yMd().add_jm().format(DateTime.now());
 
     // Create a timer to update the time every second
-    Timer.periodic(Duration(seconds: 1), (timer) {
+    _clockTimer?.cancel();
+    _clockTimer = Timer.periodic(const Duration(seconds: 1), (timer) {
+      if (!mounted) {
+        timer.cancel();
+        return;
+      }
       setState(() {
         _currentTime = DateFormat.yMd().add_jm().format(DateTime.now());
       });
@@ -61,6 +67,7 @@ class _LeaveRequestFormState extends State<LeaveRequestForm>
 
   @override
   void dispose() {
+    _clockTimer?.cancel();
     addToCartPopUpAnimationController.dispose();
     super.dispose();
   }
