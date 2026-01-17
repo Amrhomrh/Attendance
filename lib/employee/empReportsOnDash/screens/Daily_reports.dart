@@ -231,12 +231,10 @@ class _DailyReportsPageState extends State<DailyReportsPage> {
                                         showFormatDateTime(_selectedDate);
                                   });
                                 },
-                                items: <String>[
-                                  '2022',
-                                  '2023',
-                                  '2024',
-                                  '2025'
-                                ].map<DropdownMenuItem<String>>((String value) {
+                                items: List<String>.generate(
+                                  (DateTime.now().year - 2022) + 1,
+                                  (i) => (2022 + i).toString(),
+                                ).map<DropdownMenuItem<String>>((String value) {
                                   return DropdownMenuItem<String>(
                                     value: value,
                                     child: Text(

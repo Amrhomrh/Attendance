@@ -207,26 +207,47 @@ class MonthlyReportsListView extends StatelessWidget {
   final List<Map<String, dynamic>> monthlyReports;
   final int selectedMonth;
 
-  // Declare monthNames here
-  List<String> monthNames = [
-    'January',
-    'February',
-    'March',
-    'April',
-    'May',
-    'June',
-    'July',
-    'August',
-    'September',
-    'October',
-    'November',
-    'December',
-  ];
-
-  MonthlyReportsListView({
+  const MonthlyReportsListView({
+    super.key,
     required this.monthlyReports,
     required this.selectedMonth,
   });
+
+  DateTime? _safeParseDateTime(dynamic input) {
+    if (input == null) return null;
+    if (input is DateTime) return input;
+    final value = input.toString().trim();
+    if (value.isEmpty) return null;
+    try {
+      return DateTime.parse(value);
+    } catch (_) {
+      final timeOnly = RegExp(r'^\d{1,2}:\d{2}$');
+      if (timeOnly.hasMatch(value)) {
+        try {
+          final t = DateFormat('HH:mm').parse(value);
+          final now = DateTime.now();
+          return DateTime(now.year, now.month, now.day, t.hour, t.minute);
+        } catch (_) {
+          return null;
+        }
+      }
+      return null;
+    }
+  }
+
+  String? _safeFormatTimeOrDate(dynamic input) {
+    if (input == null) return null;
+    if (input is DateTime) return DateFormat('hh:mm').format(input);
+    final value = input.toString().trim();
+    if (value.isEmpty) return null;
+    final timeOnly = RegExp(r'^\d{1,2}:\d{2}$');
+    if (timeOnly.hasMatch(value)) {
+      return value;
+    }
+    final dt = _safeParseDateTime(value);
+    if (dt == null) return null;
+    return DateFormat('hh:mm').format(dt);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -315,7 +336,7 @@ class MonthlyReportsListView extends StatelessWidget {
                     child: Padding(
                       padding: const EdgeInsets.only(left: 16.0),
                       child: Text(
-                        "${shiftStartTime != null ? DateFormat('hh:mm dd/MM/yyyy').format(DateTime.parse(shiftStartTime)) : '---'}",
+                        "${shiftStartTime != null ? DateFormat('hh:mm dd/MM/yyyy').format(_safeParseDateTime(shiftStartTime) ?? DateTime.now()) : '---'}",
 
                         style: TextStyle(
                           fontSize: 12,
@@ -326,7 +347,7 @@ class MonthlyReportsListView extends StatelessWidget {
                   ),
                   TableCell(
                     child: Text(
-                      "${inTime != null ? DateFormat('hh:mm').format(DateTime.parse(inTime)) : '---'}",
+                      "${inTime != null ? (_safeFormatTimeOrDate(inTime) ?? '---') : '---'}",
                       style: TextStyle(
                         fontSize: 12,
                         color: Colors.black,
@@ -368,7 +389,7 @@ class MonthlyReportsListView extends StatelessWidget {
                     child: Padding(
                       padding: const EdgeInsets.only(left: 16.0),
                       child: Text(
-                        "${shiftEndTime != null ? DateFormat('hh:mm dd/MM/yyyy').format(DateTime.parse(shiftEndTime)) : '---'}",
+                        "${shiftEndTime != null ? DateFormat('hh:mm dd/MM/yyyy').format(_safeParseDateTime(shiftEndTime) ?? DateTime.now()) : '---'}",
                         style: TextStyle(
                           fontSize: 12,
                           color: Colors.black,
@@ -378,7 +399,7 @@ class MonthlyReportsListView extends StatelessWidget {
                   ),
                   TableCell(
                     child: Text(
-                      "${outTime != null ? DateFormat('hh:mm').format(DateTime.parse(outTime)) : '---'}",
+                      "${outTime != null ? (_safeFormatTimeOrDate(outTime) ?? '---') : '---'}",
                       style: TextStyle(
                         fontSize: 12,
                         color: Colors.black,

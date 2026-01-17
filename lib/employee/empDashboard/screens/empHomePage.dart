@@ -825,6 +825,14 @@ class ProfileInfoCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    String formatValue(dynamic value) {
+      if (value == null) return "---";
+      if (value is DateTime) {
+        return DateFormat('hh:mm a').format(value);
+      }
+      return value.toString();
+    }
+
     return Card(
       elevation: 10,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
@@ -837,8 +845,8 @@ class ProfileInfoCard extends StatelessWidget {
               ),
             )
           : TwoLineItem(
-              firstText: firstText,
-              secondText: secondText,
+              firstText: formatValue(firstText),
+              secondText: formatValue(secondText),
             ),
     );
   }
