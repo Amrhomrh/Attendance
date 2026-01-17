@@ -232,24 +232,32 @@ class EmpMainPageState extends State<EmpMainPage> {
         builder: (context, state) {
 
           if (state is NavigateToProfileState) {
+            print("@@@@@@@@@@@@@@@This is leave $state");
+
             return EmpProfilePage(
               onProfileEdit: () {
                 fetchProfileData();
               },
             );
           } else if (state is NavigateToLeaveState) {
-            print("This is leave state");
+            print("@@@@@!!!!!!!!!!!@@@@This is leave $state");
             return LeaveRequestPage(
               viaDrawer: true,
             );
           }else if (state is NavigateToGeoPunchState) {
-            print("This is leave state");
+            print("@@@@@@@@%%%%%%%%%%@@@@@@@This is leave $state");
             return EmployeeMap(viaDrawer: true);
           } else if (state is NavigateToHomeState) {
+            print("%%%%%%%%%%@@@@@@@This is le_________((_ave $state");
+
             return EmpDashHome();
           } else if (state is NavigateToReportsState) {
+            print("%%%%%%%%%%@@@@@@@Thi*&&*&*&*&**&s is leave $state");
+
             return ReportsMainPage(viaDrawer: true);
           } else if (state is NavigateToLogoutState) {
+            print("%%%%%%%%%%@@@@@@@)()()()(is leave $state");
+
             // Use Future.delayed to execute after the build is complete
             Future.delayed(Duration.zero, () {
               showCustomDialog(
@@ -270,7 +278,8 @@ class EmpMainPageState extends State<EmpMainPage> {
 
             return const EmpDashHome(); // Assuming AdminDashboard is the default screen
           } else {
-            return EmpDashHome();
+            print("%%%%%%%%@This is leave $state");
+            return  EmpDashHome();
           }
         },
       ),
