@@ -47,6 +47,8 @@ class HomePageState extends State<EmpDashHome> {
   late bool locationError = true;
   double? lat;
   double? long;
+  StreamSubscription<ServiceStatus>? _locationServiceStatusSub;
+  Timer? _pendingAttendanceTimer;
   var initProfile = EmpProfilePageState();
   EmpDrawerItem item = EmpDrawerItems.home;
   final EmpDashRepository _repository = EmpDashRepository();
@@ -139,16 +141,27 @@ class HomePageState extends State<EmpDashHome> {
     if (GlobalObjects.empProfilePic == null ||
         GlobalObjects.empCode == null ||
         GlobalObjects.empAbsent == null ) {
-      setState(() {
-        print("i am in");
-        loadingData = true;
-      });
+      if (mounted) {
+        setState(() {
+          print("i am in");
+          loadingData = true;
+        });
+      }
       fetchProfileData();
     }
 
-    Future.delayed(const Duration(seconds: 5), () {
+    _pendingAttendanceTimer?.cancel();
+    _pendingAttendanceTimer = Timer(const Duration(seconds: 5), () {
+      if (!mounted) return;
       _markPresentifAttendancePending();
     });
+  }
+
+  @override
+  void dispose() {
+    _locationServiceStatusSub?.cancel();
+    _pendingAttendanceTimer?.cancel();
+    super.dispose();
   }
 
   String? profileImageUrl;
@@ -326,7 +339,10 @@ class HomePageState extends State<EmpDashHome> {
   }
 
   Future<void> checkLocationPermission() async {
-    Geolocator.getServiceStatusStream().listen((status) {
+    _locationServiceStatusSub?.cancel();
+    _locationServiceStatusSub =
+        Geolocator.getServiceStatusStream().listen((status) {
+      if (!mounted) return;
       if (status == ServiceStatus.enabled) {
         setState(() {
           locationError = false;
@@ -345,17 +361,22 @@ class HomePageState extends State<EmpDashHome> {
 
     if (permission != LocationPermission.denied || serviceStatus) {
       try {
+        if (!mounted) return;
         setState(() {
           locationError = false;
         });
       } catch (e) {
         print('Error getting location: $e');
+        if (!mounted) return;
         setState(() {
           locationError = true;
         });
       }
     } else {
-      locationError = true;
+      if (!mounted) return;
+      setState(() {
+        locationError = true;
+      });
     }
   }
 
