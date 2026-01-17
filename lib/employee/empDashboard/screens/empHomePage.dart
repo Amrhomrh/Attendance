@@ -857,6 +857,9 @@ class TwoLineItem extends StatelessWidget {
       children: <Widget>[
         Text(
           firstText,
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
+          softWrap: false,
           style: const TextStyle(
             fontSize: 16.0,
             color: AppColors.darkGrey,
@@ -865,6 +868,9 @@ class TwoLineItem extends StatelessWidget {
         ),
         Text(
           secondText,
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
+          softWrap: false,
           style: const TextStyle(
             fontSize: 14.0,
             color: AppColors.darkGrey,
