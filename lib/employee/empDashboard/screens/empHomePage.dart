@@ -533,19 +533,23 @@ class HomePageState extends State<EmpDashHome> {
                                 const SizedBox(
                                   width: 10,
                                 ),
-                                ProfileInfoCard(
-                                  firstText: "IN",
-                                  secondText: GlobalObjects.empIn1 ?? "---",
+                                Expanded(
+                                  child: ProfileInfoCard(
+                                    firstText: "IN",
+                                    secondText: GlobalObjects.empIn1 ?? "---",
+                                  ),
                                 ),
                                 const SizedBox(
                                   width: 10,
                                 ),
-                                ProfileInfoCard(
-                                  firstText: "Status",
-                                  secondText:
-                                      GlobalObjects.empStatus!.isNotEmpty
-                                          ? GlobalObjects.empStatus
-                                          : "---",
+                                Expanded(
+                                  child: ProfileInfoCard(
+                                    firstText: "Status",
+                                    secondText:
+                                        GlobalObjects.empStatus!.isNotEmpty
+                                            ? GlobalObjects.empStatus
+                                            : "---",
+                                  ),
                                 ),
                                 const SizedBox(
                                   width: 10,
@@ -553,9 +557,11 @@ class HomePageState extends State<EmpDashHome> {
                                 const SizedBox(
                                   width: 10,
                                 ),
-                                ProfileInfoCard(
-                                  firstText: "OUT",
-                                  secondText: GlobalObjects.empOut2 ?? "---",
+                                Expanded(
+                                  child: ProfileInfoCard(
+                                    firstText: "OUT",
+                                    secondText: GlobalObjects.empOut2 ?? "---",
+                                  ),
                                 ),
                                 const SizedBox(
                                   width: 10,
@@ -693,9 +699,31 @@ class HomePageState extends State<EmpDashHome> {
           );
 
         } else if (state is InternetLostState) {
-          return Expanded(
-            child: Scaffold(
-              body: Center(
+          return Scaffold(
+            body: Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Text(
+                    "Slow or No Internet Connection homepage no internet state!",
+                    style: TextStyle(
+                      color: Colors.red,
+                      fontSize: 30,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  Lottie.asset('assets/no_wifi.json'),
+                ],
+              ),
+            ),
+          );
+        } else {
+          return Scaffold(
+            body: Container(
+              child: Center(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -712,32 +740,6 @@ class HomePageState extends State<EmpDashHome> {
                     ),
                     Lottie.asset('assets/no_wifi.json'),
                   ],
-                ),
-              ),
-            ),
-          );
-        } else {
-          return Expanded(
-            child: Scaffold(
-              body: Container(
-                child: Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      const Text(
-                        "Slow or No Internet Connection homepage no internet state!",
-                        style: TextStyle(
-                          color: Colors.red,
-                          fontSize: 30,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      Lottie.asset('assets/no_wifi.json'),
-                    ],
-                  ),
                 ),
               ),
             ),
@@ -822,23 +824,21 @@ class ProfileInfoCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: Card(
-        elevation: 10,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-        child: hasImage
-            ? Center(
-                child: Image.asset(
-                  imagePath,
-                  width: 25,
-                  height: 25,
-                ),
-              )
-            : TwoLineItem(
-                firstText: firstText,
-                secondText: secondText,
+    return Card(
+      elevation: 10,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+      child: hasImage
+          ? Center(
+              child: Image.asset(
+                imagePath,
+                width: 25,
+                height: 25,
               ),
-      ),
+            )
+          : TwoLineItem(
+              firstText: firstText,
+              secondText: secondText,
+            ),
     );
   }
 }
