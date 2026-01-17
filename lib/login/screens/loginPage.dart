@@ -331,14 +331,10 @@ class LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
 
   Future<void> saveAdminToDatabase(String username, String corporateId) async {
     try {
-      if (username != null && corporateId != null) {
-        final adminDbHelper = AdminDatabaseHelper();
-        await adminDbHelper
-            .insertAdmin({'username': username, 'corporate_id': corporateId});
-        print("Admin data saved successfully!");
-      } else {
-        print("Error: Received null values for username or corporateId.");
-      }
+      final adminDbHelper = AdminDatabaseHelper();
+      await adminDbHelper
+          .insertAdmin({'username': username, 'corporate_id': corporateId});
+      print("Admin data saved successfully!");
     } catch (e) {
       // Rethrow the exception to let the calling function handle it
       throw Exception("Error saving admin data to SQLite: $e");
