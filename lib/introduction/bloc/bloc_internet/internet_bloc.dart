@@ -2,6 +2,7 @@
 import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:preparationapplication/constants/constants.dart';
 
 import 'internet_event.dart';
 import 'internet_state.dart';
@@ -15,6 +16,11 @@ class InternetBloc extends Bloc<InternetEvent,InternetStates>{
   InternetBloc(): super(InternetInitialState()){
     on<InternetLostEvent>((event, emit) => emit(InternetLostState()));
     on<InternetGainedEvent>((event, emit) => emit(InternetGainedState()));
+
+    if (kUseMockApi) {
+      add(InternetGainedEvent());
+      return;
+    }
     _emitInitialConnectivityState();
 
     connectivitySubscription= _connectivity.onConnectivityChanged.listen((result) {
