@@ -167,6 +167,12 @@ class _LeaveRequestFormState extends State<LeaveRequestForm>
 
               selectedTypeId = employeeLeave1.leaveTypeId ?? 0;
 
+              final leaveTypeNames = <String>{
+                (employeeLeave1.ltypeName ?? '').trim(),
+                (employeeLeave2.ltypeName ?? '').trim(),
+                (employeeLeave3.ltypeName ?? '').trim(),
+              }..removeWhere((e) => e.isEmpty);
+
               return Align(
                 alignment: Alignment.center,
                 child: SingleChildScrollView(
@@ -249,13 +255,10 @@ class _LeaveRequestFormState extends State<LeaveRequestForm>
                                   fontWeight: FontWeight.bold),
                             ),
                             DropdownButtonFormField<String>(
-                              value: _selectedReason,
-                              items: [
-                                "",
-                                employeeLeave1.ltypeName,
-                                employeeLeave2.ltypeName,
-                                employeeLeave3.ltypeName,
-                              ].map((String reason) {
+                              value: _selectedReason.isEmpty
+                                  ? null
+                                  : _selectedReason,
+                              items: leaveTypeNames.map((String reason) {
                                 return DropdownMenuItem<String>(
                                   value: reason,
                                   child: Text(reason),
@@ -263,11 +266,10 @@ class _LeaveRequestFormState extends State<LeaveRequestForm>
                               }).toList(),
                               onChanged: (value) {
                                 setState(() {
-                                  _selectedReason = value!;
+                                  _selectedReason = value ?? "";
                                   _reasonController.text =
                                       _selectedReason;
-                                  selectedTypeId =
-                                      _reasonToLTypeId[value] ?? 0;
+                                  selectedTypeId = _reasonToLTypeId[value] ?? 0;
                                 });
                               },
                             ),
@@ -298,9 +300,10 @@ class _LeaveRequestFormState extends State<LeaveRequestForm>
                                   fontWeight: FontWeight.bold),
                             ),
                             DropdownButtonFormField<String>(
-                              value: _selectedLeaveDuration,
+                              value: _selectedLeaveDuration.isEmpty
+                                  ? null
+                                  : _selectedLeaveDuration,
                               items: [
-                                "",
                                 "Full Day",
                                 "Half Day",
                               ].map((String duration) {
@@ -311,7 +314,7 @@ class _LeaveRequestFormState extends State<LeaveRequestForm>
                               }).toList(),
                               onChanged: (value) {
                                 setState(() {
-                                  _selectedLeaveDuration = value!;
+                                  _selectedLeaveDuration = value ?? "";
                                   _leaveDurationController.text =
                                       _selectedLeaveDuration;
                                 });
